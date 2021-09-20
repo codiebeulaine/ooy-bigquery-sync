@@ -10,7 +10,7 @@ from fields import (
     FLOW_RUNS_FIELDS, FLOW_RUN_VALUES_FIELDS, GROUP_FIELDS)
 
 
-BQ_KEY_PATH = "creds.json"
+BQ_KEY_PATH = os.environ.get('BQ_KEY_PATH', "credentials.json")
 BQ_DATASET = "one2one-datascience.rapidpro"
 RAPIDPRO_URL = "https://one2one.rapidpro.lvcthealth.org/"
 RAPIDPRO_TOKEN = os.environ.get('RAPIDPRO_TOKEN', "")
