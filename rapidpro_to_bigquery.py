@@ -180,7 +180,7 @@ def upload_to_bigquery(table, data, fields):
 
         job_config = bigquery.LoadJobConfig(
             source_format="NEWLINE_DELIMITED_JSON",
-            write_disposition="WRITE_TRUNCATE",
+            write_disposition="WRITE_APPEND",
             max_bad_records=1,
             autodetect=False
         )
