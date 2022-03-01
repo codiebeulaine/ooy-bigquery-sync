@@ -54,6 +54,8 @@ PAGEVIEW_FIELDS = {
     "page": "INTEGER",
     "revision": "INTEGER",
     "id": "INTEGER",
+    "run_uuid": "STRING",
+    "contact_uuid": "STRING",
 }
 FLOW_RUN_VALUES_FIELDS = {
     "input": "STRING",

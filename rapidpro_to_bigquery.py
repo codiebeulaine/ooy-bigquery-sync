@@ -153,14 +153,18 @@ def get_content_repo_page_views(last_contact_date=None):
     response = requests.get(url, headers=headers)
     results = json.loads(response.content)['results']
     for result in results:
-        records.append(
-            {
-                "timestamp": result['timestamp'],
-                "page": result['page'],
-                "revision": result['revision'],
-                "id": result['id'],
-            }
-        )
+        result_data = {
+            "timestamp": result['timestamp'],
+            "page": result['page'],
+            "revision": result['revision'],
+            "id": result['id'],
+            "run_uuid": "",
+            "contact_uuid": "",
+        }
+        if "run_uuid" and "contact_uuid" in result['data'].keys():
+            result_data['run_uuid'] = result['data']['run_uuid']
+            result_data['contact_uuid'] = result['data']['contact_uuid']
+        records.append(result_data)
     return records
 
 
