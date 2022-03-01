@@ -56,7 +56,7 @@ def get_groups():
 
 
 def get_contacts_and_contact_groups(last_contact_date=None):
-    rapidpro_contacts = rapidpro_client.get_contacts().all(
+    rapidpro_contacts = rapidpro_client.get_contacts(after=last_contact_date).all(
         retry_on_rate_exceed=True
     )
 
@@ -111,7 +111,7 @@ def get_flow_runs(flows, last_contact_date=None):
     value_records = []
 
     for flow in flows:
-        for run_batch in rapidpro_client.get_runs(flow=flow["uuid"]).iterfetches(retry_on_rate_exceed=True):
+        for run_batch in rapidpro_client.get_runs(flow=flow["uuid"], after=last_contact_date).iterfetches(retry_on_rate_exceed=True):
             for run in run_batch:
 
                 exited_on = None
@@ -206,13 +206,13 @@ if __name__ == "__main__":
     print("Fetching flows")
     flows = get_flows()
     print("Fetching flow runs and values")
-    flow_runs, flow_run_values = get_flow_runs(flows)
+    flow_runs, flow_run_values = get_flow_runs(flows, last_contact_date=last_contact_date_flows)
     print("Done with flows")
     log("Fetching groups...")
     groups = get_groups()
     log(f"Groups: {len(groups)}")
     log("Fetching contacts and contact groups...")
-    contacts, group_contacts = get_contacts_and_contact_groups()
+    contacts, group_contacts = get_contacts_and_contact_groups(last_contact_date=last_contact_date_contacts)
     log(f"Contacts: {len(contacts)}")
     log(f"Group Contacts: {len(group_contacts)}")
 
