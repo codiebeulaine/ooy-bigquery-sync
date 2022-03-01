@@ -49,6 +49,14 @@ FLOW_RUNS_FIELDS = {
     "exited_on": "TIMESTAMP",
     "id": "INTEGER",
 }
+PAGEVIEW_FIELDS = {
+    "timestamp": "TIMESTAMP",
+    "page": "INTEGER",
+    "revision": "INTEGER",
+    "id": "INTEGER",
+    "run_uuid": "STRING",
+    "contact_uuid": "STRING",
+}
 FLOW_RUN_VALUES_FIELDS = {
     "input": "STRING",
     "time": "TIMESTAMP",
