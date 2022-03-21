@@ -88,7 +88,8 @@ def get_last_record_date(table, field):
     query = f"select EXTRACT(DATETIME from max({field})) from {BQ_DATASET}.{table};"
     for row in bigquery_client.query(query).result():
         if row[0]:
-            return str(row[0].strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+            timestamp = row[0] + timedelta(hours=2)
+            return str(timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
 
 
 def get_flows():
@@ -186,7 +187,8 @@ def upload_to_bigquery(table, data, fields):
             source_format="NEWLINE_DELIMITED_JSON",
             write_disposition="WRITE_APPEND",
             max_bad_records=1,
-            autodetect=False
+            autodetect=False,
+            schema=schema
         )
 
     job = bigquery_client.load_table_from_json(
@@ -205,13 +207,14 @@ if __name__ == "__main__":
     last_contact_date_pageviews = get_last_record_date("page_views", "timestamp")
     fields = rapidpro_client.get_fields().all()
     log("Start")
-    print("Fetching page views")
+    log("Fetching page views")
     pageviews = get_content_repo_page_views(last_contact_date_pageviews)
-    print("Fetching flows")
+    log("Fetching flows")
     flows = get_flows()
-    print("Fetching flow runs and values")
+    log("Fetching flow runs and values...")
     flow_runs, flow_run_values = get_flow_runs(flows, last_contact_date=last_contact_date_flows)
-    print("Done with flows")
+    log(f"flow_runs: {len(flow_runs)}")
+    log(f"flow_run_values: {len(flow_run_values)}")
     log("Fetching groups...")
     groups = get_groups()
     log(f"Groups: {len(groups)}")
