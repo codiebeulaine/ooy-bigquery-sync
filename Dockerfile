@@ -1,5 +1,5 @@
 
-FROM praekeltfoundation/python-base
+FROM python:3.8.1-slim-buster
 
 RUN apt-get update && apt-get -y install cron
 
